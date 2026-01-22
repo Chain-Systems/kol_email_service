@@ -1,9 +1,12 @@
 import express from "express";
+import prisma from "./database/client";
+import "dotenv/config";
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
+app.get("/", async (req, res) => {
+  const users = await prisma.user.findMany();
+  res.json(users);
 });
 
 app.listen(3000, () => {

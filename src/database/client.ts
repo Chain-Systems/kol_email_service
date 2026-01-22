@@ -1,16 +1,26 @@
-import {PrismaMariaDb} from "@prisma/adapter-mariadb";
-import {PrismaClient} from "../../generated/prisma/client";
+import { PrismaClient } from '../../generated/prisma/client';
+import { PrismaMariaDb } from '@prisma/adapter-mariadb';
+import 'dotenv/config';
 
-const adapter = new PrismaMariaDb({
-  host: process.env.DATABASE_HOST ?? "",
-  user: process.env.DATABASE_USER ?? "",
-  password: process.env.DATABASE_PASSWORD ?? "",
-  database: process.env.DATABASE_NAME ?? "",
-  connectionLimit: 5
+declare global {    
+  // eslint-disable-next-line no-var
+  var prisma: PrismaClient | undefined;
+}
+
+if (!process.env.DATABASE_URL) {
+  throw new Error('DATABASE_URL environment variable is not set');
+}
+
+const adapterFactory = new PrismaMariaDb(process.env.DATABASE_URL);
+
+const prismaClient = global.prisma || new PrismaClient({
+  adapter: adapterFactory,
+  log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
 });
 
-const prisma = new PrismaClient({
-  adapter,
-});
+if (process.env.NODE_ENV !== 'production') {
+  global.prisma = prismaClient;
+}
 
-export default prisma;
+export default prismaClient;
+

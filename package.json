@@ -30,6 +30,7 @@
     "ethers": "^6.16.0",
     "express": "^5.2.1",
     "mariadb": "^3.4.5",
+    "node-cron": "^4.2.1",
     "nodemailer": "^7.0.12",
     "prisma": "^7.3.0",
     "tsx": "^4.21.0",

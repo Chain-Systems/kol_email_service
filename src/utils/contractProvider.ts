@@ -111,6 +111,6 @@ const CONTRACT_ABI = [
       "type":"function"
     }
   ];
-const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
+const contract: ethers.Contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
 
-export default contract;
+export { contract as contract };

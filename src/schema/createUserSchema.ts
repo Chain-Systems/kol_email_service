@@ -7,3 +7,5 @@ export const createUserSchema = z.object({
     signature: z.string({error:"Signature is required"}),
     timestamp: z.number({error:"Timestamp is required"}),
 });
+
+export type User = z.infer<typeof createUserSchema>;

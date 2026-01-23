@@ -4,7 +4,7 @@ import { connectDb } from "./database/client";
 import userRouter from "./routes/userRouter";
 import { EmailService } from "./utils/emailService";
 import cors from "cors";
-
+import { cronService } from "./services/cron";
 
 const app = express();
 
@@ -21,5 +21,11 @@ export const emailService = new EmailService({
 app.listen(3000, async () => {
   await connectDb();
   await emailService.verifyConnection();
+  try{
+    cronService.start();
+    console.log("Crons started...Checking for users every 5 minutes");
+  } catch (error) {
+    console.error("Error starting cron service:", error);
+  }
   console.log("Server is running on port 3000");
 });

@@ -11,6 +11,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default{
+    getUserDetails:async(req: Request, res: Response) => {
+        const walletAddress = req.params.walletAddress as string;
+        const user = await prismaClient.user.findUnique({ where: { walletAddress ,verified: true} });
+        if(!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        return res.status(200).json({ message: "User found" });
+    },
     createUser:async (req: Request, res: Response) => {
         const { error } = createUserSchema.safeParse(req.body);
         if (error) {

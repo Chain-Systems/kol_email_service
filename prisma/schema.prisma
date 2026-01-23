@@ -12,12 +12,16 @@ generator client {
 datasource db {
   provider = "mysql"
 }
-
+enum UserStatus {
+  PENDING
+  VERIFIED
+}
 model User{
   id String @id @default(uuid())
   email String @unique
   walletAddress String @unique
   verified Boolean @default(false)
+  status UserStatus @default(PENDING)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

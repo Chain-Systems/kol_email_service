@@ -13,11 +13,11 @@ const __dirname = path.dirname(__filename);
 export default{
     getUserDetails:async(req: Request, res: Response) => {
         const walletAddress = req.params.walletAddress as string;
-        const user = await prismaClient.user.findUnique({ where: { walletAddress ,verified: true} });
+        const user = await prismaClient.user.findUnique({ where: { walletAddress} });
         if(!user) {
             return res.status(404).json({ error: "User not found" });
         }
-        return res.status(200).json({ message: "User found" });
+        return res.status(200).json({ verified: user.verified, status: user.status });
     },
     createUser:async (req: Request, res: Response) => {
         const { error } = createUserSchema.safeParse(req.body);
@@ -60,17 +60,13 @@ export default{
                 }
                 await tx.user.update({
                     where: { id: userId },
-                    data: { verified: true, updatedAt: new Date() }
-                });
-                await tx.user.update({
-                    where: { id: userId },
-                    data: { updatedAt: new Date() }
+                    data: { verified: true, updatedAt: new Date(),status: "VERIFIED" }
                 });
             });
             return res.status(200).sendFile(path.join(__dirname, "../view/verified.html"));
         } catch (error) {
             console.error("Failed to verify email:", error);
-            return res.status(500).sendFile(path.join(__dirname, "../view/error.html"));
+            return res.status(400).sendFile(path.join(__dirname, "../view/error.html"));
         }
     },
     

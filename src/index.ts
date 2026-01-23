@@ -1,4 +1,4 @@
-import express from "express";
+import express, { type Request, type Response } from "express";
 import "dotenv/config";
 import { connectDb } from "./database/client";
 import userRouter from "./routes/userRouter";
@@ -11,6 +11,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use("/api/user", userRouter);
+
+app.get("/", (req: Request, res: Response) => {
+  res.send("Hello World");
+});
 
 export const emailService = new EmailService({
   service: "gmail",

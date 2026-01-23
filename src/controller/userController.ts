@@ -34,9 +34,22 @@ export default{
             return res.status(400).sendFile(path.join(__dirname, "../view/error.html"));
         }
         try {
-            await prismaClient.user.update({
-                where: { id: userId },
-                data: { verified: true }
+            await prismaClient.$transaction(async (tx) => {
+                const user = await tx.user.findUnique({ where: { id: userId } });
+                if(!user) {
+                    return res.status(400).sendFile(path.join(__dirname, "../view/envalidUser.html"));
+                }
+                if(user.verified) {
+                    return res.status(400).sendFile(path.join(__dirname, "../view/envalidUser.html"));
+                }
+                await tx.user.update({
+                    where: { id: userId },
+                    data: { verified: true, updatedAt: new Date() }
+                });
+                await tx.user.update({
+                    where: { id: userId },
+                    data: { updatedAt: new Date() }
+                });
             });
             return res.status(200).sendFile(path.join(__dirname, "../view/verified.html"));
         } catch (error) {
@@ -44,15 +57,7 @@ export default{
             return res.status(500).sendFile(path.join(__dirname, "../view/error.html"));
         }
     },
-    getUsers: async (req: Request, res: Response) => {
-        try {
-            const users = await prismaClient.user.findMany();
-            return res.status(200).json({ users });
-        } catch (error) {
-            console.error("Failed to get users:", error);
-            return res.status(500).json({ error: "Failed to get users" });
-        }
-    },
+    
     deleteUser: async (req: Request, res: Response) => {
         const {data, error } = deleteUserSchema.safeParse(req.body);
         if (error) {
@@ -69,11 +74,7 @@ export default{
         }
         try {
             const user = await prismaClient.user.findUnique({ where: { walletAddress:walletAddress.trim() } });
-            console.log(user);
             if(!user) {
-                console.log("User not found, please try again");
-                console.log(walletAddress);
-                console.log(recoveredAddress);
                 return res.status(400).json({ error: "User not found, please try again" });
             }
             await prismaClient.user.delete({ where: { id: user.id } });

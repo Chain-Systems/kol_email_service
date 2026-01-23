@@ -27,7 +27,7 @@ app.listen(3000, async () => {
   await emailService.verifyConnection();
   try{
     cronService.start();
-    console.log("Crons started...Checking for users every 5 minutes");
+    console.log("Crons started...Sending Emails every 24hr");
   } catch (error) {
     console.error("Error starting cron service:", error);
   }

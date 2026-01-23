@@ -3,7 +3,7 @@ import { fetchUserDetails } from "../utils/userDetails";
 import { prismaClient } from "../database/client";
 import { emailService } from "../index";
 
-export const cronService = cron.schedule("*/5    * * * *", async () => {
+export const cronService = cron.schedule("0 9 * * *", async () => {
     console.log("CRON: Sending email to users");
     const users = await prismaClient.user.findMany();
     for (const user of users) {

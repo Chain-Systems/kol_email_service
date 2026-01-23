@@ -3,12 +3,13 @@ import "dotenv/config";
 import { connectDb } from "./database/client";
 import userRouter from "./routes/userRouter";
 import { EmailService } from "./utils/emailService";
-
+import cors from "cors";
 
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 app.use("/api/user", userRouter);
 
 export const emailService = new EmailService({

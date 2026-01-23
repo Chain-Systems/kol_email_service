@@ -16,7 +16,15 @@ export default{
         if (error) {
             return res.status(400).json({ error: error.message });
         }
-        const { email, walletAddress } = req.body;
+        const { email, walletAddress, message, signature, timestamp } = req.body;
+        const recoveredAddress = ethers.verifyMessage(message, signature);   
+
+        if(Date.now() - timestamp > 1000 * 60 * 5) {
+            return res.status(400).json({ error: "Signature expired, please try again" });
+        }
+        if(recoveredAddress.toLowerCase() !== walletAddress.toLowerCase()) {
+            return res.status(400).json({ error: "Invalid signature, please try again" });
+        }
         try {
             const user = await prismaClient.user.create({
                 data: { email, walletAddress }

@@ -19,6 +19,8 @@ export interface EmailMessage {
   }>;
 }
 
+const EMAIL=process.env.EMAIL;
+
 export class EmailService {
   private transporter: Transporter<SMTPTransport.SentMessageInfo>;
 
@@ -35,7 +37,7 @@ export class EmailService {
   async sendEmail(message: EmailMessage): Promise<void> {
     try {
       const info = await this.transporter.sendMail({
-        from: "7Kol <fitnessfrreak2@gmail.com>",
+        from: `7Kol <${EMAIL}>`,
         ...message
       });
       console.log('Email sent successfully!');

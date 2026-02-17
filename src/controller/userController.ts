@@ -16,7 +16,7 @@ export default{
         if(!user) {
             return res.status(404).json({ error: "User not found" });
         }
-        return res.status(200).json({ verified: user.verified, status: user.status });
+        return res.status(200).json({email: user.email, verified: user.verified, status: user.status });
     },
     createUser:async (req: Request, res: Response) => {
         const { error } = createUserSchema.safeParse(req.body);

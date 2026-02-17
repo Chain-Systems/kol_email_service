@@ -97,7 +97,7 @@ const sendDetailsToUser = async (user: { email: string, walletAddress: string })
                             <table width="100%" cellpadding="0" cellspacing="0" style="margin-top: 30px;">
                                 <tr>
                                     <td align="center">
-                                        <a href="https://kols-gamma.vercel.app/kols" target="_blank" style="display: inline-block; padding: 14px 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">View Dashboard</a>
+                                        <a href="https://7app.kolstoken.com" target="_blank" style="display: inline-block; padding: 14px 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">View Dashboard</a>
                                     </td>
                                 </tr>
                             </table>
@@ -111,7 +111,7 @@ const sendDetailsToUser = async (user: { email: string, walletAddress: string })
                                 You're receiving this email because you subscribed to daily updates from 7Kols.
                             </p>
                             <p style="margin: 0; color: #999999; font-size: 12px; text-align: center;">
-                                <a href="https://kols-gamma.vercel.app/kols" target="_blank" style="color: #667eea; text-decoration: none;">Visit 7Kols</a>
+                                <a href="https://7app.kolstoken.com" target="_blank" style="color: #667eea; text-decoration: none;">Visit 7Kols</a>
                             </p>
                             <p style="margin: 15px 0 0 0; color: #cccccc; font-size: 11px; text-align: center;">
                                 © ${new Date().getFullYear()} 7Kols. All rights reserved.

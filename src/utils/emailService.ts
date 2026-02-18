@@ -2,9 +2,10 @@ import nodemailer, { type Transporter } from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 export interface EmailConfig {
-  service: string;
   user: string;
   pass: string;
+  host?: string;
+  port?: number;
 }
 
 export interface EmailMessage {
@@ -26,11 +27,13 @@ export class EmailService {
 
   constructor(config: EmailConfig) {
     this.transporter = nodemailer.createTransport({
-      service: config.service,
+      host: config.host ?? "smtp.hostinger.com",
+      port: config.port ?? 465,
+      secure: true,
       auth: {
         user: config.user,
-        pass: config.pass
-      }
+        pass: config.pass,
+      },
     });
   }
 

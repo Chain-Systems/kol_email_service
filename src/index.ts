@@ -17,8 +17,9 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 export const emailService = new EmailService({
-  service: "gmail",
-  user: "fitnessfrreak2@gmail.com",
+  host: "smtp.hostinger.com",
+  port: 465,
+  user: process.env.EMAIL as string,
   pass: process.env.EMAIL_PASSWORD as string
 });
 
